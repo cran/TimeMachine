@@ -1,0 +1,21 @@
+export(
+    "density.tm",
+    "full.transitions",
+    "mean.tm",
+    "mu.mle",
+    "pophistory",
+    "pophistory.tm",
+    "print.tm",
+    "quantile.tm",
+    "sample.pop",
+    "stationary.dist",
+    "summary.tm",
+    "tm",
+    "ttc",
+    "ttc.tm",
+    "ttm",
+    "ttm.tm"
+)
+
+useDynLib("TimeMachine")
+

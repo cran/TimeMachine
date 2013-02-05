@@ -1,0 +1,108 @@
+\documentclass{article}
+
+%\VignetteIndexEntry{Time Machine Algorithm}
+
+\usepackage{amsfonts}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage[utf8]{inputenc}
+
+\renewcommand{\vec}[1]{\ensuremath{\mathbf{#1}}}
+\newcommand{\mat}[1]{\ensuremath{\vec{#1}}}
+\newcommand{\mnorm}[1]{\ensuremath{\left| #1 \right|_{1}}}
+
+\title{Time Machine Algorithm}
+\date{}
+
+\setlength{\parindent}{0pt}
+
+\begin{document}
+
+\maketitle
+
+\section{Notation}
+In the following, the mutation rate is denoted by $\mu$, and the $d \times d$
+transition matrix between types by $\mat{P} = \left( p_{ij} \right)$.
+Moreover, for convenience of notation, we denote by $\vec{e}_{i}$ the
+$d$-dimensional row vector with 1 in the $i$\textsuperscript{th} position and 0
+elsewhere.
+Finally, for a $d$-dimensional vector $\vec{x}$, we write
+$\mnorm{\vec{x}} = \left| x_{1} \right| + \ldots + \left| x_{d} \right|$.
+
+\section{Algorithm}
+The algorithm simulates genealogical trees backwards in time from an observed
+initial population $\vec{n}_{0} = \left( n_{1,0}, \ldots, n_{d,0} \right)$ with
+$d$ possible types up to the point when there are $N$ sequences left in the
+population.
+Note that the case $N = 1$ corresponds to the ordinary coalescent simulation,
+whereas $N > 1$ corresponds to the Time Machine.
+
+Starting at $t = 0$, the following steps will be iterated until
+$\mnorm{\vec{n}_{t}} = N$.
+\begin{enumerate}
+    \item Sample the offspring type $i$ with probability proportional to
+          $n_{i,t}$;
+    \item Sample the ancestor type $j$; an offspring of type $i$ might have
+          arisen from an ancestor of type $j$ through:
+          \begin{enumerate}
+              \item a coalescent event, with probability proportional to
+                    $\mnorm{\vec{n}_{i,t}} - 1$;
+              \item a $j \to i$ mutation (with $j$ possibly equal to $i$), with
+                    probability $\mu\,\kappa_{ij}\,p_{ij}$, where
+                    \[
+                        \kappa_{ij} =
+                        \begin{cases}
+                            \frac{n_{j,t} + \mu \psi_{j}}{\mnorm{\vec{n}_{t}} - 1 + \mu} & j \neq i \text{,} \\
+                            \frac{n_{j,t} - 1 + \mu \psi_{j}}{\mnorm{\vec{n}_{t}} - 1 + \mu} & j = i \text{,}
+                        \end{cases}
+                    \]
+                    and $\vec{\psi}$ is the stationary distribution associated
+                    with $\mat{P}$;
+          \end{enumerate}
+    \item Update the counts for each type,
+          \[
+              \vec{n}_{t+1} =
+              \begin{cases}
+                  \vec{n}_{t} - \vec{e}_{i} + \vec{e}_{j} & \text{if a mutation occurred,} \\
+                  \vec{n}_{t} - \vec{e}_{i} & \text{if a coalescent event occurred;}
+              \end{cases}
+          \]
+    \item Compute the contribution to the likelihood of the simulated event,
+          which is given by
+          \[
+              w_{t} = \frac{K_{t}}{K_{t+1}} \frac{\kappa_{ii}}{\kappa_{ij}} \frac{x_{j,t+1}}{\mnorm{\vec{n}_{t}}}
+          \]
+          where $K_{t} = \mnorm{\vec{n}_{t}} \left( \mnorm{\vec{n}_{t}} - 1 + \mu \right)$,
+          if a mutation occurred, and by
+          \[
+              w_{t} = \frac{K_{t}}{K_{t+1}} \frac{1}{\kappa_{ii}} \frac{x_{i,t+1} \left( \mnorm{\vec{n}_{t+1}} - 1 \right)}{n_{i,t} \left( n_{i,t} - 1 \right)}
+          \]
+          if a coalescent event occurred;
+    \item Update the log-likelihood,
+          \[
+              W_{t} =
+              \begin{cases}
+                  \log\!\left( w_{t} \right) & t = 0 \text{,} \\
+                  W_{t-1} + \log\!\left( w_{t} \right) & t \geq 1 \text{;}
+              \end{cases}
+          \]
+    \item Assess the stopping criterion:
+          \begin{enumerate}
+              \item if the Time Machine is used ($N > 1$), stop if
+                    $\mnorm{\vec{n}_{t+1}} = N$;
+              \item otherwise, repeat the above steps until
+                    $\mnorm{\vec{n}_{t+1}} = 2$, at which point mutations are
+                    simulated until both remaining sequences are of the same
+                    type.
+          \end{enumerate}
+\end{enumerate}
+
+For $N > 1$, the log-likelihood is corrected by adding the following term,
+\[
+    \log b = \log\!\left[ \frac{\mnorm{\vec{n}_{\rho}}!\,\Gamma\!\left( \mu \right)}{\Gamma\!\left( \mu + \mnorm{\vec{n}_{\rho}} \right)} \right] + \sum_{i=1}^{d} \log\!\left[ \frac{\Gamma\!\left( n_{i,\rho} + \mu\,\psi_{i} \right)}{n_{i,\rho}!\,\Gamma\!\left( \mu\,\psi_{i} \right)} \right]\!\text{,}
+\]
+where $\rho$ is the last simulated event, and $\Gamma$ denotes the gamma
+function.
+
+\end{document}
+
