@@ -57,7 +57,11 @@ void simulate(well1024 *prng, R_len_t types, double *transitions, double *pi,
         pop_size += population[i];
     }
 
-    start_time = omp_get_wtime();
+    #ifdef _OPENMP
+        start_time = omp_get_wtime();
+    #else
+        start_time = time(NULL);
+    #endif
 
     *loglik = 0.0;
     sen = 0;
@@ -122,7 +126,6 @@ void simulate(well1024 *prng, R_len_t types, double *transitions, double *pi,
 
     /* Compute correction term, if needed */
     *correction = 0.0;
-    start_time = omp_get_wtime();
     if (n > 1) {
         *correction += lgammafn(pop_size + 1);
         *correction += lgammafn(mu);
@@ -138,7 +141,11 @@ void simulate(well1024 *prng, R_len_t types, double *transitions, double *pi,
         *loglik += *correction;
     }
 
-    *sim_time = omp_get_wtime() - start_time;
+    #ifdef _OPENMP
+        *sim_time = omp_get_wtime() - start_time;
+    #else
+        *sim_time = time(NULL) - start_time;
+    #endif
 }
 
 SEXP compute_full_transitions(SEXP unitary_transitions, SEXP loci)
@@ -292,9 +299,11 @@ SEXP estimate_loglik(SEXP transitions_in, SEXP pi_in, SEXP population_in,
     }
 
     /* Set number of threads, if requested */
+    #ifdef _OPENMP
     if (!isNull(threads_in)) {
         omp_set_num_threads(asInteger(threads_in));
     }
+    #endif
 
     /* Compute number of coalescent events */
     n_coalescent = -n;
@@ -323,23 +332,33 @@ SEXP estimate_loglik(SEXP transitions_in, SEXP pi_in, SEXP population_in,
              start_time, total_time, prng_seeds) \
      private (i, prng, offspring_probs, ancestor_probs)
     {
-        #pragma omp single
-        {
-            well1024_init(&prng, time_seed());
-            threads = omp_get_num_threads();
-            prng_seeds = (unsigned int *) malloc(sizeof(unsigned int) * threads);
-            for (i = 0; i < threads; i++) {
-                prng_seeds[i] = well1024_uint_rand(&prng);
+        #ifdef _OPENMP
+            #pragma omp single
+            {
+                well1024_init(&prng, time_seed());
+                threads = omp_get_num_threads();
+                threads = 1;
+                prng_seeds = (unsigned int *) malloc(sizeof(unsigned int) *
+                                                     threads);
+                for (i = 0; i < threads; i++) {
+                    prng_seeds[i] = well1024_uint_rand(&prng);
+                }
             }
-        }
+            well1024_init(&prng, prng_seeds[omp_get_thread_num()]);
+        #else
+            well1024_init(&prng, time_seed());
+        #endif
 
-        well1024_init(&prng, prng_seeds[omp_get_thread_num()]);
         offspring_probs = (double *) malloc(sizeof(double) * types);
         ancestor_probs = (double *) malloc(sizeof(double) * (types + 1));
 
         #pragma omp single
         {
-            start_time = omp_get_wtime();
+            #ifdef _OPENMP
+                start_time = omp_get_wtime();
+            #else
+                start_time = time(NULL);
+            #endif
         }
 
         #pragma omp for
@@ -353,7 +372,11 @@ SEXP estimate_loglik(SEXP transitions_in, SEXP pi_in, SEXP population_in,
 
         #pragma omp single
         {
-            total_time = omp_get_wtime() - start_time;
+            #ifdef _OPENMP
+                total_time = omp_get_wtime() - start_time;
+            #else
+                total_time = time(NULL) - start_time;
+            #endif
         }
 
         free(offspring_probs);

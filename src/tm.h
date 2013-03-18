@@ -2,9 +2,13 @@
 #define TM_H
 
 #include <math.h>
-#include <omp.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <time.h>
+
+#ifdef _OPENMP
+    #include <omp.h>
+#endif
 
 #include <R.h>
 #include <Rmath.h>

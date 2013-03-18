@@ -1,9 +1,10 @@
-76cc9c255c6f480a8483859ab3d02528 *DESCRIPTION
+9212ae5eb21589620088b13215a2414c *DESCRIPTION
 abea4fb022542879fce548b12505120d *NAMESPACE
 9aefd1c0a428d22c89dcdbb349b4ebcc *R/tm.R
 a2e3a2603f2ac09ce5dd98228b45dfbe *data/pdm.rda
+d0cddecb6fa16383cc9468c92d0f9865 *inst/NEWS.Rd
 9d7b93836a26471991a8752117cc45f9 *inst/doc/algorithm.Rnw
-db6082820a2c347bf96cbf73439e7e52 *inst/doc/algorithm.pdf
+1b0f0a53f9ab345ed83c0e3e2f1933f8 *inst/doc/algorithm.pdf
 018c1b510d93248afe986b7b8b7aa70a *man/full.transitions.Rd
 0bae0eae4e20ae3acbbb9380181f22eb *man/mu.mle.Rd
 19929be008e855d124c86603c28b150d *man/pdm.Rd
@@ -13,8 +14,8 @@ b8b77b7a3215a4eb12a9bad1177f5dd4 *man/sample.pop.Rd
 5b9b7aa482ac3a3f5f900e4dfaa6f614 *man/time-dist.Rd
 23336b39bb25f179d8fd843b744e6b13 *man/tm.Rd
 d40b118333be5678e2c45b03acc49b41 *src/Makevars
-3a21f7802f58515d2786934368aeac85 *src/tm.c
-13820b0d2f0af731ff9b22820e899e3a *src/tm.h
+7f7401144ba058e0634eacd75782a937 *src/tm.c
+c5b51d5eb81732c35d32bac86c76f6d6 *src/tm.h
 b39388893b461b583851fed85dbb342e *src/utils.c
 ca267612f79da0cfd15040debbcd592f *src/utils.h
 9d7b93836a26471991a8752117cc45f9 *vignettes/algorithm.Rnw
