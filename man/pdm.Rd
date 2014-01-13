@@ -8,7 +8,7 @@ types, corresponding to each possible combination of genotypes over 10 loci.
 }
 \usage{pdm}
 \format{\describe{
-    \item{unitary.transitions}{Per-site transition matrix}
+    \item{unitary.transitions}{Unitary (per-locus) transition matrix}
     \item{loci}{Number of loci}
     \item{population}{Population}
 }}

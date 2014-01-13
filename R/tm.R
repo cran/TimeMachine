@@ -1,3 +1,19 @@
+# This file is part of the TimeMachine.
+# Copyright (C) 2013 Gianluca Campanella <gianluca@campanella.org>
+#
+# The TimeMachine is free software: you can redistribute it and/or modify it
+# under the terms of the GNU General Public License as published by the Free
+# Software Foundation, either version 3 of the License, or (at your option) any
+# later version.
+#
+# The TimeMachine is distributed in the hope that it will be useful, but
+# WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
+# FITNESS FOR A PARTICULAR PURPOSE.
+# See the GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License along with
+# theTimeMachine. If not, see <http://www.gnu.org/licenses/>.
+
 setGeneric("pophistory", def=function(x, probs=seq(0, 1, 0.25)) UseMethod("pophistory"))
 setGeneric("ttc", def=function(x) UseMethod("ttc"))
 setGeneric("ttm", def=function(x) UseMethod("ttm"))
@@ -113,7 +129,7 @@ quantile.tm <- function(x, ...) {
 }
 
 summary.tm <- function(object, ..., digits=max(3, getOption("digits")-3)) {
-    n.percentage <- object$n / sum(object$population) * 100
+    n.percentage <- object$n / sum(object$population)# 100
     mean.sim.time <- mean(object$simulation.times)
     mean.loglik <- mean(object)
     loglik.quantiles <- quantile(object, probs=c(0.05, 0.95))

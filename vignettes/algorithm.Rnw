@@ -52,14 +52,14 @@ $\mnorm{\vec{n}_{t}} = N$.
                     \[
                         \kappa_{ij} =
                         \begin{cases}
-                            \frac{n_{j,t} + \mu \psi_{j}}{\mnorm{\vec{n}_{t}} - 1 + \mu} & j \neq i \text{,} \\
-                            \frac{n_{j,t} - 1 + \mu \psi_{j}}{\mnorm{\vec{n}_{t}} - 1 + \mu} & j = i \text{,}
+                            \frac{n_{j,t} + \mu \pi_{j}}{\mnorm{\vec{n}_{t}} - 1 + \mu} & j \neq i \text{,} \\
+                            \frac{n_{j,t} - 1 + \mu \pi_{j}}{\mnorm{\vec{n}_{t}} - 1 + \mu} & j = i \text{,}
                         \end{cases}
                     \]
-                    and $\vec{\psi}$ is the stationary distribution associated
+                    and $\vec{\pi}$ is the stationary distribution associated
                     with $\mat{P}$;
           \end{enumerate}
-    \item Update the counts for each type,
+    \item Update the population size within each type,
           \[
               \vec{n}_{t+1} =
               \begin{cases}
@@ -99,7 +99,7 @@ $\mnorm{\vec{n}_{t}} = N$.
 
 For $N > 1$, the log-likelihood is corrected by adding the following term,
 \[
-    \log b = \log\!\left[ \frac{\mnorm{\vec{n}_{\rho}}!\,\Gamma\!\left( \mu \right)}{\Gamma\!\left( \mu + \mnorm{\vec{n}_{\rho}} \right)} \right] + \sum_{i=1}^{d} \log\!\left[ \frac{\Gamma\!\left( n_{i,\rho} + \mu\,\psi_{i} \right)}{n_{i,\rho}!\,\Gamma\!\left( \mu\,\psi_{i} \right)} \right]\!\text{,}
+    \log b = \log\!\left[ \frac{\mnorm{\vec{n}_{\rho}}!\,\Gamma\!\left( \mu \right)}{\Gamma\!\left( \mu + \mnorm{\vec{n}_{\rho}} \right)} \right] + \sum_{i=1}^{d} \log\!\left[ \frac{\Gamma\!\left( n_{i,\rho} + \mu\,\pi_{i} \right)}{n_{i,\rho}!\,\Gamma\!\left( \mu\,\pi_{i} \right)} \right]\!\text{,}
 \]
 where $\rho$ is the last simulated event, and $\Gamma$ denotes the gamma
 function.

@@ -1,7 +1,25 @@
+/*
+ * This file is part of the TimeMachine.
+ * Copyright (C) 2013 Gianluca Campanella <gianluca@campanella.org>
+ *
+ * The TimeMachine is free software: you can redistribute it and/or modify it
+ * under the terms of the GNU General Public License as published by the Free
+ * Software Foundation, either version 3 of the License, or (at your option) any
+ * later version.
+ *
+ * The TimeMachine is distributed in the hope that it will be useful, but
+ * WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.
+ * See the GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License along with
+ * theTimeMachine. If not, see <http://www.gnu.org/licenses/>.
+ */
+
 #include "tm.h"
 
-inline double kappa(double *pi, int *population, int pop_size,
-                    double mu, R_len_t i, R_len_t j)
+static inline double kappa(double *pi, int *population, int pop_size,
+                           double mu, R_len_t i, R_len_t j)
 {
     return (population[j] - (i == j ? 1 : 0) + mu * pi[j]) /
            (pop_size - 1 + mu);
@@ -257,8 +275,11 @@ SEXP compute_stationary_distribution(SEXP transitions) {
 SEXP estimate_loglik(SEXP transitions_in, SEXP pi_in, SEXP population_in,
                      SEXP n_in, SEXP mu_in, SEXP samples_in, SEXP threads_in)
 {
-    int *population, n, threads, n_coalescent, *coalescent_events, *final_pops;
-    unsigned int *prng_seeds;
+    int *population, n, n_coalescent, *coalescent_events, *final_pops;
+    #ifdef _OPENMP
+        int threads;
+        unsigned int *prng_seeds;
+    #endif
     double *transitions, *pi, mu, *offspring_probs, *ancestor_probs, *logliks,
            *corrections, *sim_times, start_time, total_time;
     R_len_t samples, types, i;
@@ -383,7 +404,9 @@ SEXP estimate_loglik(SEXP transitions_in, SEXP pi_in, SEXP population_in,
         free(ancestor_probs);
     }
 
-    free(prng_seeds);
+    #ifdef _OPENMP
+        free(prng_seeds);
+    #endif
 
     PROTECT(result = allocVector(VECSXP, 9));
     SET_VECTOR_ELT(result, 0, population_in);
