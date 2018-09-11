@@ -19,3 +19,14 @@ export(
 
 useDynLib("TimeMachine")
 
+importFrom(stats, density, optimize, quantile, runif)
+
+S3method(pophistory, tm)
+S3method(ttc, tm)
+S3method(ttm, tm)
+S3method(density, tm)
+S3method(mean, tm)
+S3method(print, tm)
+S3method(quantile, tm)
+S3method(summary, tm)
+    

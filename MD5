@@ -1,9 +1,9 @@
-2212c5662720f641d47fac5f71ca7789 *DESCRIPTION
-abea4fb022542879fce548b12505120d *NAMESPACE
+6217953acefad1e2d455e09ffc0fd780 *DESCRIPTION
+ffcbb43175c0e0b9ad740327b4ebf3dd *NAMESPACE
 8e311fee3db8b9b04470b03be4b6634d *R/tm.R
-87c26173daa4a3c9b1754bc777cd5014 *README.md
+5460dcfdcbe9b14b265ddf30327e9f55 *README.md
 90ee8f69e2d2d3a1a6a4be82953248df *build/vignette.rds
-a2e3a2603f2ac09ce5dd98228b45dfbe *data/pdm.rda
+8b91bdedb56dd13cb6ba0afe0e907ee0 *data/pdm.rda
 29ffce574036e1141db26ec5b4578e63 *inst/NEWS.Rd
 4b6c0ac8a7908b2d771b956c44e53577 *inst/doc/algorithm.Rnw
 772435280182da658853beee48399a1f *inst/doc/algorithm.pdf

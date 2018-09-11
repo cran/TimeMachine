@@ -19,5 +19,5 @@ be easily installed using `install.packages`.
 
 
 [paper]: http://dx.doi.org/10.1098/rspa.2010.0497
-[cran]: http://cran.r-project.org/web/packages/TimeMachine/
+[cran]: https://cran.r-project.org/package=TimeMachine
 
